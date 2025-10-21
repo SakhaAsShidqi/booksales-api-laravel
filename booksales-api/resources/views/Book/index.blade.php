@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Daftar Penulis (Author)</title>
+    <title>Daftar Buku (Book)</title>
     <style>
         * { box-sizing: border-box; }
         body {
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
             background: #f6f8fb;
-            color: #0f172a;
+            color: #1f2937;
             margin: 24px;
         }
 
@@ -21,7 +21,7 @@
             width: 100%;
             border-collapse: collapse;
             background: #ffffff;
-            box-shadow: 0 1px 6px rgba(15,23,42,0.06);
+            box-shadow: 0 1px 4px rgba(16,24,40,0.06);
             border-radius: 8px;
             overflow: hidden;
         }
@@ -29,7 +29,7 @@
         thead th {
             text-align: left;
             padding: 12px 16px;
-            background: linear-gradient(180deg,#f8fafc,#eef2ff);
+            background: linear-gradient(180deg,#f3f4f6,#eef2ff);
             color: #0f172a;
             font-weight: 700;
             font-size: 0.95rem;
@@ -67,7 +67,7 @@
             font-weight: 600;
         }
         p a:hover { background: #1e40af; }
-
+        
         @media (max-width: 700px) {
             table { display: block; overflow-x: auto; white-space: nowrap; }
             thead th, tbody td { padding: 10px 12px; }
@@ -76,23 +76,26 @@
     </style>
 </head>
 <body>
-    <h1>Daftar Penulis (Author)</h1>
+    <h1>Daftar Buku (Book)</h1>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nama</th>
-                <th>Negara</th>
-                <th>Tahun Lahir</th>
+                <th>Judul</th>
+                <th>ISBN</th>
+                <th>Author</th>
+                <th>Tahun Terbit</th>
+                <th>Genre</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($authors as $author)
+            @foreach ($books as $book)
             <tr>
-                <td>{{ $author->id }}</td>
-                <td>{{ $author->nama }}</td>
-                <td>{{ $author->negara }}</td>
-                <td>{{ $author->tahun_lahir }}</td>
+                <td>{{ $book->id }}</td>
+                <td>{{ $book->judul }}</td>
+                <td>{{ $book->isbn }}</td>
+                <td>{{ $book->author->nama }}</td> <td>{{ $book->tahun_terbit }}</td>
+                <td>{{ $book->genre }}</td>
             </tr>
             @endforeach
         </tbody>
