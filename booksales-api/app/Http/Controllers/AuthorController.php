@@ -1,14 +1,29 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class AuthorController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
-        // Ambil semua data author dari database
-        $authors = Author::all(); 
-        return view('author.index', compact('authors'));
+        try {
+            $authors = Author::with('books')->get();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data penulis berhasil diambil',
+                'data' => $authors
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal mengambil data penulis',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

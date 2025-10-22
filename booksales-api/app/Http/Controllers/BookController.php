@@ -1,13 +1,34 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class BookController extends Controller
 {
-    public function index()
+    /**
+     * Menampilkan daftar semua buku dengan data penulis.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(): JsonResponse
     {
-        $books = Book::with('author')->get(); 
-        return view('book.index', compact('books'));
+        try {
+            $books = Book::with('author')->get();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data buku berhasil diambil',
+                'data' => $books
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal mengambil data buku',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
