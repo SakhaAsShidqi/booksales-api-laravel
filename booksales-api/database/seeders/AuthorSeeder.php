@@ -3,18 +3,21 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Author;
 
 class AuthorSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('authors')->insert([
-            ['nama' => 'Andrea Hirata', 'negara' => 'Indonesia', 'tahun_lahir' => 1967, 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'J.K. Rowling', 'negara' => 'Inggris', 'tahun_lahir' => 1965, 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'Agatha Christie', 'negara' => 'Inggris', 'tahun_lahir' => 1890, 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'Haruki Murakami', 'negara' => 'Jepang', 'tahun_lahir' => 1949, 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'Tere Liye', 'negara' => 'Indonesia', 'tahun_lahir' => 1979, 'created_at' => now(), 'updated_at' => now()],
-        ]);
+        $authors = [
+            ['nama' => 'Andrea Hirata', 'negara' => 'Indonesia', 'tahun_lahir' => 1967],
+            ['nama' => 'Pramoedya Ananta Toer', 'negara' => 'Indonesia', 'tahun_lahir' => 1925],
+            ['nama' => 'Agatha Christie', 'negara' => 'United Kingdom', 'tahun_lahir' => 1890],
+            ['nama' => 'J.K. Rowling', 'negara' => 'United Kingdom', 'tahun_lahir' => 1965],
+        ];
+
+        foreach ($authors as $a) {
+            Author::firstOrCreate(['nama' => $a['nama']], $a);
+        }
     }
 }
