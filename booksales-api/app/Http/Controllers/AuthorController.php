@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class AuthorController extends Controller
 {
@@ -13,7 +12,6 @@ class AuthorController extends Controller
         $authors = Author::all();
         return response()->json(['status' => 'success', 'data' => $authors], 200);
     }
-
 
     public function store(Request $request)
     {
@@ -35,5 +33,43 @@ class AuthorController extends Controller
             'data' => $author
         ], 201);
     }
-    
+
+    public function show($id)
+    {
+        $author = Author::find($id);
+        if (! $author) {
+            return response()->json(['message' => 'Author not found'], 404);
+        }
+
+        return response()->json($author);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $author = Author::find($id);
+        if (! $author) {
+            return response()->json(['message' => 'Author not found'], 404);
+        }
+
+        $validated = $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+        ]);
+
+        $author->update($validated);
+
+        return response()->json($author);
+    }
+
+    public function destroy($id)
+    {
+        $author = Author::find($id);
+        if (! $author) {
+            return response()->json(['message' => 'Author not found'], 404);
+        }
+
+        $author->delete();
+
+        return response()->json(['message' => 'Author deleted']);
+    }
 }

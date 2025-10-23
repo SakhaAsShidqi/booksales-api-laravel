@@ -1,23 +1,22 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\SaleController;
-use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\GenreController;
 
 Route::middleware('api')->group(function () {
     // Books
     Route::get('books', [BookController::class, 'index']);
     Route::get('books/{book}', [BookController::class, 'show']);
 
-    // Authors
-    Route::get('authors', [AuthorController::class, 'index']);
-    Route::post('authors', [AuthorController::class, 'store']);
+    // Authors (gunakan apiResource)
+    Route::apiResource('authors', AuthorController::class);
 
-    // Genres
-    Route::get('genres', [GenreController::class, 'index']);
-    Route::post('genres', [GenreController::class, 'store']);
+    // Genres (gunakan apiResource)
+    Route::apiResource('genres', GenreController::class);
 
     // Sales
     Route::get('sales', [SaleController::class, 'index']);
