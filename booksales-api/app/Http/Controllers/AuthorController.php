@@ -4,26 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 
 class AuthorController extends Controller
 {
-    public function index(): JsonResponse
+    public function index()
     {
-        try {
-            $authors = Author::with('books')->get();
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data penulis berhasil diambil',
-                'data' => $authors
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Gagal mengambil data penulis',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+        $authors = Author::all();
+        return response()->json(['status' => 'success', 'data' => $authors], 200);
     }
+
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|string|max:100',
+            'negara' => 'nullable|string|max:50',
+            'tahun_lahir' => 'required|integer|digits:4',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'errors' => $validator->errors()], 422); 
+        }
+
+        $author = Author::create($request->all());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Author berhasil ditambahkan.',
+            'data' => $author
+        ], 201);
+    }
+    
 }

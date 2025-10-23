@@ -31,4 +31,18 @@ class BookController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Menampilkan detail buku.
+     *
+     * @param Book $book
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(Book $book): JsonResponse
+    {
+        return response()->json([
+            'status' => 'success',
+            'data' => $book
+        ], 200);
+    }
 }
